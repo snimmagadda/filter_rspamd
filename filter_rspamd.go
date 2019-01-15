@@ -90,7 +90,7 @@ func txCleanup(s *session, args []string) {
 }
 
 func filterCommit(s *session, args []string) {
-	token := args[5]
+	token := args[6]
 	reason := <-s.ch
 	if reason != "" {
 		stdout.Printf("filter-result|%s|%s|reject|%s\n",
@@ -101,7 +101,7 @@ func filterCommit(s *session, args []string) {
 }
 
 func filterDataLine(s *session, args []string) {
-	token, line := args[5], args[7]
+	token, line := args[6], args[7]
 	if line != "." {
 		s.payload.WriteString(line)
 		s.payload.WriteString("\n")
@@ -213,15 +213,7 @@ func main() {
 	stdin := bufio.NewScanner(os.Stdin)
 	for stdin.Scan() {
 		fields := strings.Split(stdin.Text(), "|")
-		switch fields[0] {
-		case "report":
-			id = fields[5]
-		case "filter":
-			id = fields[6]
-		default:
-			log.Fatalf("Unknown kind: %s", fields[0])
-		}
-		event = fields[4]
+		event, id = fields[4], fields[5]
 		switch event {
 		case "link-disconnect":
 			delete(sessions, id)
