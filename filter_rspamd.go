@@ -65,16 +65,16 @@ func txBegin(s *session, args []string) {
 }
 
 func txMail(s *session, args []string) {
-	mail_from, status := args[7], args[8]
+	mailFrom, status := args[7], args[8]
 	if status == "ok" {
-		s.control["From"] = mail_from
+		s.control["From"] = mailFrom
 	}
 }
 
 func txRcpt(s *session, args []string) {
-	rcpt_to, status := args[7], args[8]
+	rcptTo, status := args[7], args[8]
 	if status == "ok" {
-		s.control["Rcpt"] = rcpt_to
+		s.control["Rcpt"] = rcptTo
 	}
 }
 
