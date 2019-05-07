@@ -224,7 +224,9 @@ func main() {
 				payload: &strings.Builder{}}
 			fallthrough
 		default:
-			registry[event].fn(sessions[id], fields)
+			if sessions[id] != nil {
+				registry[event].fn(sessions[id], fields)
+			}
 		}
 	}
 }
