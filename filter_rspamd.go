@@ -138,12 +138,14 @@ func dataOutput(headers map[string]string,
 	go func() {
 		resp, err := rspamdPost(headers, data)
 		if err != nil {
-			log.Fatal(err)
+			ch <- "421 Temporary failure"
+			return
 		}
 		log.Printf("%v\n", resp)
 		m, err := mail.ReadMessage(strings.NewReader(data))
 		if err != nil {
-			log.Fatal(err)
+			ch <- "421 Temporary failure"
+			return
 		}
 		rejectReason := ""
 		switch resp.Action {
